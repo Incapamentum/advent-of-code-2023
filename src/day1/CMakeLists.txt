@@ -9,3 +9,7 @@ project("AoC 2023 - Day 1"
 add_executable(Trebuchet
     trebuchet.cpp
 )
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/sample-puzzle.txt
+    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+)
