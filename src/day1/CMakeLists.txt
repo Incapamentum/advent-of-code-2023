@@ -13,3 +13,7 @@ add_executable(Trebuchet
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/sample-puzzle.txt
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
 )
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/input-puzzle.txt
+    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+)
