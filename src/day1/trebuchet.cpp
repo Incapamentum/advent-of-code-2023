@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 
 #include <errno.h>
 
@@ -20,6 +21,19 @@ void print_cwd(void)
         << cwd << "\n";
 }
 #endif
+
+// Global variable time
+const std::unordered_map<std::string, std::string> NUMBER_MAP{
+    {"one", "o1e"},
+    {"two", "t20"},
+    {"three", "t3e"},
+    {"four", "f4r"},
+    {"five", "f5e"},
+    {"six", "s6x"},
+    {"seven", "s7n"},
+    {"eight", "e8t"},
+    {"nine", "n9e"},
+};
 
 int obtain_val(const std::array<int, 2> &d)
 {
@@ -90,6 +104,17 @@ print_cwd();
     std::string line;
     while (std::getline(inf, line))
     {
+        // Replace words
+        for (const auto &num : NUMBER_MAP)
+        {
+            size_t pos = line.find(num.first);
+            while (pos != std::string::npos)
+            {
+                line.replace(pos, num.first.length(), num.second);
+                pos = line.find(num.first, pos + num.second.length());
+            }
+        }
+
         acc += extract_calibration_val(line);
     }
 
