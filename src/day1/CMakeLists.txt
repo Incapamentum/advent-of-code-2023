@@ -10,7 +10,7 @@ add_executable(Trebuchet
     trebuchet.cpp
 )
 
-file(GLOB PuzzleFiles *puzzle*.txt)
+file(GLOB PuzzleFiles *input*.txt)
 
 file(COPY ${PuzzleFiles}
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
