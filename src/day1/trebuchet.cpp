@@ -22,7 +22,7 @@ void print_cwd(void)
 }
 #endif
 
-// Global variable time
+// Global variable time for Part 2
 const std::unordered_map<std::string, std::string> NUMBER_MAP{
     {"one", "o1e"},
     {"two", "t20"},
