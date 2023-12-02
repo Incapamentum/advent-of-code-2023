@@ -21,15 +21,6 @@ void print_cwd(void)
 }
 #endif
 
-// IDEA: make use of an "acc" to keep track of overall
-// calibration value.
-//
-// Have a function that exctracts the values from each line
-// and adds it to the "acc"
-//
-// NOTE: each line contains a calibration value that can be obtained
-//      by combining the FIRST and the LAST digit (in that order) to
-//      form a single two-digit number
 int obtain_val(const std::array<int, 2> &d)
 {
     int num{ };
