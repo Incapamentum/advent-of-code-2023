@@ -25,7 +25,7 @@ int obtain_val(const std::array<int, 2> &d)
 {
     int num{ };
 
-    for (const int& n : d)
+    for (const auto& n : d)
     {
         num = num * 10 + n;
     }
@@ -37,7 +37,7 @@ int extract_calibration_val(std::string_view sv)
 {
     std::array<int, 2> digits{ -1, -1 };
 
-    for (const char& c : sv)
+    for (const auto& c : sv)
     {
         if (isdigit(c))
         {
