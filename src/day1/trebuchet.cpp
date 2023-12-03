@@ -8,20 +8,6 @@
 
 #include <errno.h>
 
-// Debug purposes
-// #define ENABLE_DEBUG
-
-#ifdef ENABLE_DEBUG
-#include <filesystem>
-
-void print_cwd(void)
-{
-    std::filesystem::path cwd = std::filesystem::current_path();
-    std::cerr << "Current working directory: "
-        << cwd << "\n";
-}
-#endif
-
 // Global variable time for Part 2
 const std::unordered_map<std::string, std::string> NUMBER_MAP{
     {"one", "o1e"},
@@ -73,11 +59,24 @@ int extract_calibration_val(std::string_view sv)
     return obtain_val(digits);
 }
 
+std::vector<std::string> load_lines(const std::string& file_name)
+{
+    std::ifstream inf{ file_name };
+
+    std::vector<std::string> lines{ };
+    std::string line{ };
+
+    while (std::getline(inf, line))
+    {
+        lines.push_back(line);
+    }
+
+    return lines;
+}
+
 int main(int argc, char* argv[])
 {
-#ifdef ENABLE_DEBUG
-print_cwd();
-#endif
+    int sum{ };
 
     // Must include an input file as an arg
     if (argc != 2)
@@ -89,36 +88,38 @@ print_cwd();
         return EINVAL;
     }
 
-    std::stringstream file_name{ argv[1] };
-    std::ifstream inf{ file_name.str() };
-    int acc{ };
+    // Get file name
+    std::string file_name{ argv[1] };
 
-    // Check if file was able to be opened
-    if (!inf)
-    {
-        std::cerr << "Uh oh, sample-puzzle.txt could not be opened for reading!\n";
-        return ENOENT;
-    }
+    // Get input lines for processing
+    auto lines{ load_lines(file_name) };
+
+    // // Check if file was able to be opened
+    // if (!inf)
+    // {
+    //     std::cerr << "Uh oh, sample-puzzle.txt could not be opened for reading!\n";
+    //     return ENOENT;
+    // }
 
     // Read from file, line by line
     std::string line;
-    while (std::getline(inf, line))
-    {
-        // Replace words
-        for (const auto &num : NUMBER_MAP)
-        {
-            size_t pos = line.find(num.first);
-            while (pos != std::string::npos)
-            {
-                line.replace(pos, num.first.length(), num.second);
-                pos = line.find(num.first, pos + num.second.length());
-            }
-        }
+    // while (std::getline(inf, line))
+    // {
+    //     // Replace words
+    //     for (const auto &num : NUMBER_MAP)
+    //     {
+    //         size_t pos = line.find(num.first);
+    //         while (pos != std::string::npos)
+    //         {
+    //             line.replace(pos, num.first.length(), num.second);
+    //             pos = line.find(num.first, pos + num.second.length());
+    //         }
+    //     }
 
-        acc += extract_calibration_val(line);
-    }
+    //     acc += extract_calibration_val(line);
+    // }
 
-    std::cout << "The sum of the calibration values is: " << acc << "\n";
+    // std::cout << "The sum of the calibration values is: " << acc << "\n";
 
     return 0;
 }
