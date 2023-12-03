@@ -9,3 +9,9 @@ project("AoC 2023 - Day 2"
 add_executable(Cube-Conundrum
     cube-conundrum.cpp
 )
+
+file(GLOB InputFiles *input*.txt)
+
+file(COPY ${InputFiles}
+    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+)
