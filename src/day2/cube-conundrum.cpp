@@ -8,6 +8,8 @@
 
 #include <errno.h>
 
+#include "helpers.h"
+
 const std::unordered_map<std::string, int> RGB_TRANSLATE{
     {"red", 0},
     {"green", 1},
@@ -26,21 +28,6 @@ std::vector<std::string> split(const std::string& s, char delimiter)
     }
 
     return result;
-}
-
-std::vector<std::string> load_lines(const std::string& file_name)
-{
-    std::ifstream inf{ file_name };
-
-    std::vector<std::string> lines;
-    std::string line;
-
-    while (std::getline(inf, line))
-    {
-        lines.push_back(line);
-    }
-
-    return lines;
 }
 
 bool process_subsets(std::vector<std::string>& subsets,
