@@ -19,49 +19,49 @@ const std::unordered_map<std::string, std::string> NUMBER_MAP{
     {"nine", "n9e"},
 };
 
-// int obtain_val(const std::array<int, 2> &d)
+// void sub_words(std::vector<std::string>& lines)
 // {
-//     int num{ };
 
-//     for (const auto& n : d)
-//     {
-//         num = num * 10 + n;
-//     }
-
-//     return num;
 // }
 
-// int extract_calibration_val(std::string_view sv)
-// {
-//     std::array<int, 2> digits{ -1, -1 };
+// Extracts the "encoded" calibration value that's
+// within the line.
+int extract_calibration(const std::string& line)
+{
+    int digits[2]{ };
 
-//     for (const auto& c : sv)
-//     {
-//         if (isdigit(c))
-//         {
-//             // Populate with first encountered digit
-//             if (digits[0] == -1)
-//             {
-//                 digits[0] = c - '0';
-//                 digits[1] = c - '0';
-//             }
-//             else
-//             {
-//                 digits[1] = c - '0';
-//             }
-//         }
-//     }
+    // Find the first digit
+    for (const char& c : line)
+    {
+        if (std::isdigit(c))
+        {
+            digits[0] = c - '0';
+            break;
+        }
+    }
 
-//     std::cout << "Extracted number: " << digits[0] << digits[1] << "\n";
+    // Find the second digit
+    for (auto it = line.rbegin(); it != line.rend(); ++it)
+    {
+        if (std::isdigit(*it))
+        {
+            digits[1] = *it - '0';
+            break;
+        }
+    }
 
-//     return obtain_val(digits);
-// }
+    return digits[0] * 10 + digits[1];
+}
 
 void process_lines(std::vector<std::string>& lines, int& sum)
 {
-    
+    for (std::string l : lines)
+    {
+        sum += extract_calibration(l);
+    }
 }
 
+// Reads lines from input files and stored in a vector for later processing
 std::vector<std::string> load_lines(const std::string& file_name)
 {
     std::ifstream inf{ file_name };
@@ -97,23 +97,10 @@ int main(int argc, char* argv[])
     // Get input lines for processing
     auto lines{ load_lines(file_name) };
 
-    // while (std::getline(inf, line))
-    // {
-    //     // Replace words
-    //     for (const auto &num : NUMBER_MAP)
-    //     {
-    //         size_t pos = line.find(num.first);
-    //         while (pos != std::string::npos)
-    //         {
-    //             line.replace(pos, num.first.length(), num.second);
-    //             pos = line.find(num.first, pos + num.second.length());
-    //         }
-    //     }
+    // Process the input
+    process_lines(lines, sum);
 
-    //     acc += extract_calibration_val(line);
-    // }
-
-    // std::cout << "The sum of the calibration values is: " << acc << "\n";
+    std::cout << "The sum of the calibration values is: " << sum << "\n";
 
     return 0;
 }
