@@ -34,8 +34,7 @@ void sub_words(std::string& line)
     }
 }
 
-// Extracts the "encoded" calibration value that's
-// within the line.
+// Extracts the "encoded" calibration value that is in the line
 int extract_calibration(const std::string& line)
 {
     int digits[2]{ };
