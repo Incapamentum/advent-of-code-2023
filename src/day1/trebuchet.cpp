@@ -1,10 +1,7 @@
-#include <array>
-#include <cctype>
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <string>
 #include <unordered_map>
+#include <vector>
 
 #include <errno.h>
 
@@ -21,43 +18,43 @@ const std::unordered_map<std::string, std::string> NUMBER_MAP{
     {"nine", "n9e"},
 };
 
-int obtain_val(const std::array<int, 2> &d)
-{
-    int num{ };
+// int obtain_val(const std::array<int, 2> &d)
+// {
+//     int num{ };
 
-    for (const auto& n : d)
-    {
-        num = num * 10 + n;
-    }
+//     for (const auto& n : d)
+//     {
+//         num = num * 10 + n;
+//     }
 
-    return num;
-}
+//     return num;
+// }
 
-int extract_calibration_val(std::string_view sv)
-{
-    std::array<int, 2> digits{ -1, -1 };
+// int extract_calibration_val(std::string_view sv)
+// {
+//     std::array<int, 2> digits{ -1, -1 };
 
-    for (const auto& c : sv)
-    {
-        if (isdigit(c))
-        {
-            // Populate with first encountered digit
-            if (digits[0] == -1)
-            {
-                digits[0] = c - '0';
-                digits[1] = c - '0';
-            }
-            else
-            {
-                digits[1] = c - '0';
-            }
-        }
-    }
+//     for (const auto& c : sv)
+//     {
+//         if (isdigit(c))
+//         {
+//             // Populate with first encountered digit
+//             if (digits[0] == -1)
+//             {
+//                 digits[0] = c - '0';
+//                 digits[1] = c - '0';
+//             }
+//             else
+//             {
+//                 digits[1] = c - '0';
+//             }
+//         }
+//     }
 
-    std::cout << "Extracted number: " << digits[0] << digits[1] << "\n";
+//     std::cout << "Extracted number: " << digits[0] << digits[1] << "\n";
 
-    return obtain_val(digits);
-}
+//     return obtain_val(digits);
+// }
 
 std::vector<std::string> load_lines(const std::string& file_name)
 {
