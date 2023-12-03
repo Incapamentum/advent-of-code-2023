@@ -97,15 +97,6 @@ int main(int argc, char* argv[])
     // Get input lines for processing
     auto lines{ load_lines(file_name) };
 
-    // // Check if file was able to be opened
-    // if (!inf)
-    // {
-    //     std::cerr << "Uh oh, sample-puzzle.txt could not be opened for reading!\n";
-    //     return ENOENT;
-    // }
-
-    // Read from file, line by line
-    std::string line;
     // while (std::getline(inf, line))
     // {
     //     // Replace words
