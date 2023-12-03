@@ -9,7 +9,7 @@
 // Necessary for word subbing, especially if they overlap
 const std::unordered_map<std::string, std::string> NUMBER_MAP{
     {"one", "o1e"},
-    {"two", "t20"},
+    {"two", "t2o"},
     {"three", "t3e"},
     {"four", "f4r"},
     {"five", "f5e"},
