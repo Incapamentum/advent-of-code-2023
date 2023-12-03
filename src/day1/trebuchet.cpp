@@ -19,10 +19,20 @@ const std::unordered_map<std::string, std::string> NUMBER_MAP{
     {"nine", "n9e"},
 };
 
-// void sub_words(std::vector<std::string>& lines)
-// {
+// Substitute words based on the number mapping
+void sub_words(std::string& line)
+{
+    for (const auto &num : NUMBER_MAP)
+    {
+        size_t pos = line.find(num.first);
 
-// }
+        while (pos != std::string::npos)
+        {
+            line.replace(pos, num.first.length(), num.second);
+            pos = line.find(num.first, pos + num.second.length());
+        }
+    }
+}
 
 // Extracts the "encoded" calibration value that's
 // within the line.
@@ -57,6 +67,7 @@ void process_lines(std::vector<std::string>& lines, int& sum)
 {
     for (std::string l : lines)
     {
+        sub_words(l);
         sum += extract_calibration(l);
     }
 }
