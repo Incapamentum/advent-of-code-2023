@@ -57,6 +57,11 @@ const std::unordered_map<std::string, std::string> NUMBER_MAP{
 //     return obtain_val(digits);
 // }
 
+void process_lines(std::vector<std::string>& lines, int& sum)
+{
+    
+}
+
 std::vector<std::string> load_lines(const std::string& file_name)
 {
     std::ifstream inf{ file_name };
