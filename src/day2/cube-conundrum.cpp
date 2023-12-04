@@ -32,7 +32,8 @@ std::vector<std::string> split(const std::string& s, char delimiter)
     return result;
 }
 
-bool process_game(std::string game, std::vector<int>& rgb)
+// Processes
+bool process_encounter(std::string game, std::vector<int>& rgb)
 {
     std::regex game_pattern("\\s*(\\d+)\\s*(red|green|blue)");
     std::smatch matches{ };
@@ -60,14 +61,14 @@ bool process_game(std::string game, std::vector<int>& rgb)
     return true;
 }
 
-// This may have to be implemented in a recursive fashion
+// Determines if a game by processing each encounter
 bool valid_game(std::vector<std::string>& subsets,
     std::vector<int>& rgb)
 {
-    // Process each game
-    for (std::string game : subsets)
+    // Process each encounter
+    for (std::string encounter : subsets)
     {
-        if (!process_game(game, rgb))
+        if (!process_encounter(encounter, rgb))
         {
             return false;
         }
