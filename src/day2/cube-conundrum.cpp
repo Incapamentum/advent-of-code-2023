@@ -133,7 +133,7 @@ int main(int argc, char* argv[])
     // Process the input
     process_lines(lines, rgb, sum);
 
-    std::cout << "The sum of the IDs of possible games is: " << sum << "\n";
+    std::cout << "The sum of the IDs of valid games is: " << sum << "\n";
 
     return 0;
 }
