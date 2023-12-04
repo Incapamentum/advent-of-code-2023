@@ -1,6 +1,7 @@
-#include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <map>
+#include <regex>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -10,7 +11,8 @@
 
 #include "helpers.h"
 
-const std::unordered_map<std::string, int> RGB_TRANSLATE{
+const std::unordered_map<std::string, int> RGB_TRANSLATE
+{
     {"red", 0},
     {"green", 1},
     {"blue", 2}
@@ -30,50 +32,85 @@ std::vector<std::string> split(const std::string& s, char delimiter)
     return result;
 }
 
-bool process_subsets(std::vector<std::string>& subsets,
-    std::vector<int>& rgb)
+bool process_game(std::string game, std::vector<int>& rgb)
 {
-    for (std::string s : subsets)
+    std::regex game_pattern("\\s*(\\d+)\\s*(red|green|blue)");
+    std::smatch matches{ };
+    std::map<std::string, int> vals{ };
+
+    std::string::const_iterator start(game.cbegin());
+
+    // Obtain a mapping
+    while (std::regex_search(start, game.cend(), matches, game_pattern))
     {
-        auto cubes{ split(s, ',') };
+        vals[matches[2]] = std::stoi(matches[1]);
+        start = matches.suffix().first;
+    }
 
-
-        for (std::string draw : cubes)
+    // Process the results
+    for (const auto& pair : vals)
+    {
+        // Determine possibility
+        if (pair.second > rgb[RGB_TRANSLATE.at(pair.first)])
         {
-            auto vals{ split(draw, ' ')};
-            vals.erase(vals.begin());
-
-            // std::cout << std::stoi(vals[0]);
-            if (std::stoi(vals[0]) > RGB_TRANSLATE.at(vals[1]))
-            {
-                return false;
-            }
-            // if (std::stoi(vals[0]) > RGB_TRANSLATE.find(vals[1]))
-            //     return false;
+            return false;
         }
     }
 
     return true;
 }
 
-std::vector<int> process_lines(std::vector<std::string>& lines,
+// This may have to be implemented in a recursive fashion
+bool valid_game(std::vector<std::string>& subsets,
     std::vector<int>& rgb)
 {
-    std::vector<int> game_ids{ };
+    // Process each game
+    for (std::string game : subsets)
+    {
+        if (!process_game(game, rgb))
+        {
+            return false;
+        }
+    }
 
+    return true;
+}
+
+int extract_game_id(const std::string& s)
+{
+    std::regex rgx{"Game (\\d+)"};
+    std::smatch match{ };
+
+    std::regex_search(s, match, rgx);
+
+    return std::stoi(match.str(1));
+}
+
+// Process the lines from the input file
+//
+// Idea is to split the input line into two parts, with the first being used to
+// extract the game ID, and the second being further processed to determine if
+// the set of games is possible
+void process_lines(std::vector<std::string>& lines,
+    std::vector<int>& rgb, int& sum)
+{
     for (std::string s : lines)
     {
         auto game_split{ split(s, ':') };
-        auto cube_split{ split(game_split[1], ';') };
+        auto gameset_split{ split(game_split[1], ';') };
+        auto game_id{ extract_game_id(game_split[0]) };
 
-        process_subsets(cube_split, rgb);
+        if (valid_game(gameset_split, rgb))
+        {
+            sum += game_id;
+        }
     }
-
-    return game_ids;
 }
 
 int main(int argc, char* argv[])
 {
+    int sum{ };
+
     // Must include input file and three RGB values
     if (argc != 5)
     {
@@ -93,7 +130,10 @@ int main(int argc, char* argv[])
     // Obtain lines
     auto lines{ load_lines(file_name) };
 
-    auto dum{ process_lines(lines, rgb) };
+    // Process the input
+    process_lines(lines, rgb, sum);
+
+    std::cout << "The sum of the IDs of possible games is: " << sum << "\n";
 
     return 0;
 }
