@@ -6,6 +6,8 @@
 
 #include <errno.h>
 
+#include "helpers.h"
+
 // Necessary for word subbing, especially if they overlap
 const std::unordered_map<std::string, std::string> NUMBER_MAP{
     {"one", "o1e"},
@@ -69,22 +71,6 @@ void process_lines(std::vector<std::string>& lines, int& sum)
         sub_words(l);
         sum += extract_calibration(l);
     }
-}
-
-// Reads lines from input files and stored in a vector for later processing
-std::vector<std::string> load_lines(const std::string& file_name)
-{
-    std::ifstream inf{ file_name };
-
-    std::vector<std::string> lines{ };
-    std::string line{ };
-
-    while (std::getline(inf, line))
-    {
-        lines.push_back(line);
-    }
-
-    return lines;
 }
 
 int main(int argc, char* argv[])
